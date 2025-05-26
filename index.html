@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: #f0f0f0;
             min-height: 100vh;
             padding: 20px;
         }
@@ -27,21 +27,22 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             padding: 30px;
+            border: 2px solid #000;
         }
 
         h1 {
-            color: #333;
+            color: #000;
             text-align: center;
             margin-bottom: 30px;
             font-size: 2.5rem;
         }
 
         .form-section {
-            background: #f8f9fa;
+            background: #f8f8f8;
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 30px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border: 2px solid #000;
         }
 
         .form-grid {
@@ -65,23 +66,24 @@
 
         label {
             font-weight: 600;
-            color: #555;
+            color: #000;
             margin-bottom: 5px;
             font-size: 0.9rem;
         }
 
         input, select {
             padding: 12px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #000;
             border-radius: 8px;
             font-size: 16px;
             transition: all 0.3s ease;
+            background: white;
         }
 
         input:focus, select:focus {
             outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            border-color: #000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
         }
 
         input[type="number"] {
@@ -107,58 +109,59 @@
         }
 
         .btn-primary {
-            background: #4CAF50;
+            background: #000;
             color: white;
-            box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         .btn-primary:hover {
-            background: #45a049;
+            background: #333;
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
         }
 
         .btn-danger {
-            background: #f44336;
+            background: #dc3545;
             color: white;
-            box-shadow: 0 4px 6px rgba(244, 67, 54, 0.2);
+            box-shadow: 0 4px 6px rgba(220, 53, 69, 0.2);
         }
 
         .btn-danger:hover {
-            background: #da190b;
+            background: #c82333;
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(244, 67, 54, 0.3);
+            box-shadow: 0 6px 8px rgba(220, 53, 69, 0.3);
         }
 
         .btn-secondary {
-            background: #2196F3;
+            background: #003399;
             color: white;
-            box-shadow: 0 4px 6px rgba(33, 150, 243, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 51, 153, 0.2);
         }
 
         .btn-secondary:hover {
-            background: #0b7dda;
+            background: #002266;
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(33, 150, 243, 0.3);
+            box-shadow: 0 6px 8px rgba(0, 51, 153, 0.3);
         }
 
         .btn-warning {
-            background: #ff9800;
-            color: white;
-            box-shadow: 0 4px 6px rgba(255, 152, 0, 0.2);
+            background: #ffc107;
+            color: #000;
+            box-shadow: 0 4px 6px rgba(255, 193, 7, 0.2);
         }
 
         .btn-warning:hover {
-            background: #e68900;
+            background: #e0a800;
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(255, 152, 0, 0.3);
+            box-shadow: 0 6px 8px rgba(255, 193, 7, 0.3);
         }
 
         .materials-list {
-            background: #f8f9fa;
+            background: #f8f8f8;
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 30px;
+            border: 2px solid #000;
         }
 
         .material-item {
@@ -169,13 +172,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #000;
             transition: all 0.3s ease;
         }
 
         .material-item:hover {
             transform: translateX(5px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .material-info {
@@ -184,24 +187,24 @@
 
         .material-name {
             font-weight: 600;
-            color: #333;
+            color: #000;
             font-size: 1.1rem;
             margin-bottom: 5px;
         }
 
         .material-details {
-            color: #666;
+            color: #333;
             font-size: 0.9rem;
         }
 
         .summary-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #000;
             color: white;
             padding: 25px;
             border-radius: 15px;
             text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .summary-title {
@@ -220,7 +223,7 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 15px 30px;
             border-radius: 10px;
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .summary-label {
@@ -278,12 +281,12 @@
         .modal-header {
             font-size: 1.5rem;
             margin-bottom: 20px;
-            color: #333;
+            color: #000;
         }
 
         .modal-body {
             margin-bottom: 20px;
-            color: #666;
+            color: #333;
         }
 
         .modal-footer {
@@ -295,7 +298,7 @@
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #999;
+            color: #666;
         }
 
         .empty-state-icon {
@@ -387,7 +390,7 @@
         </div>
 
         <div class="materials-list">
-            <h3 style="margin-bottom: 20px; color: #333;">📋 Lista de Materiales</h3>
+            <h3 style="margin-bottom: 20px; color: #000;">📋 Lista de Materiales</h3>
             <div id="materialesList">
                 <div class="empty-state">
                     <div class="empty-state-icon">📦</div>
@@ -443,7 +446,7 @@
         function mostrarToast(mensaje, tipo = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = mensaje;
-            toast.style.background = tipo === 'success' ? '#4CAF50' : '#f44336';
+            toast.style.background = tipo === 'success' ? '#000' : '#dc3545';
             toast.classList.add('show');
             setTimeout(() => {
                 toast.classList.remove('show');
@@ -659,13 +662,39 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Título
-            doc.setFontSize(20);
-            doc.text('Presupuesto de Materiales', 105, 20, { align: 'center' });
+            // Colores
+            const azul = [0, 51, 153];
+            const negro = [0, 0, 0];
+            const grisClaro = [245, 245, 245];
             
-            // Fecha
+            // Encabezado con fondo azul
+            doc.setFillColor(...azul);
+            doc.rect(0, 0, 210, 40, 'F');
+            
+            // Título en blanco
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(24);
+            doc.setFont(undefined, 'bold');
+            doc.text('PRESUPUESTO DE MATERIALES', 105, 20, { align: 'center' });
+            
+            // Fecha en blanco
             doc.setFontSize(12);
-            doc.text(`Fecha: ${new Date().toLocaleDateString('es-ES')}`, 20, 35);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Fecha: ${new Date().toLocaleDateString('es-CR')}`, 105, 32, { align: 'center' });
+            
+            // Resetear color de texto a negro
+            doc.setTextColor(...negro);
+            
+            // Información de la empresa (opcional)
+            doc.setFontSize(10);
+            doc.text('Empresa: _________________________', 20, 55);
+            doc.text('Cliente: _________________________', 20, 62);
+            doc.text('Proyecto: ________________________', 20, 69);
+            
+            // Línea divisora
+            doc.setDrawColor(...azul);
+            doc.setLineWidth(0.5);
+            doc.line(20, 75, 190, 75);
             
             // Preparar datos para la tabla
             const tableData = materiales.map(m => [
@@ -678,27 +707,82 @@
             // Calcular total
             const total = materiales.reduce((sum, m) => sum + m.total, 0);
             
-            // Agregar fila de total
-            tableData.push(['', '', 'TOTAL:', `₡${total.toFixed(2)}`]);
-            
             // Crear tabla
             doc.autoTable({
                 head: [['Material', 'Cantidad', 'Precio Unitario', 'Total']],
                 body: tableData,
-                startY: 45,
-                styles: { fontSize: 10 },
-                headStyles: { fillColor: [76, 175, 80] },
-                footStyles: { fillColor: [240, 240, 240] }
+                startY: 80,
+                styles: { 
+                    fontSize: 10,
+                    textColor: negro,
+                    lineColor: [200, 200, 200],
+                    lineWidth: 0.1
+                },
+                headStyles: { 
+                    fillColor: azul,
+                    textColor: [255, 255, 255],
+                    fontSize: 11,
+                    fontStyle: 'bold'
+                },
+                alternateRowStyles: {
+                    fillColor: grisClaro
+                },
+                columnStyles: {
+                    0: { cellWidth: 80 },
+                    1: { cellWidth: 30, halign: 'center' },
+                    2: { cellWidth: 40, halign: 'right' },
+                    3: { cellWidth: 40, halign: 'right' }
+                }
             });
             
-            // Resumen
+            // Obtener posición Y después de la tabla
             const finalY = doc.lastAutoTable.finalY + 10;
+            
+            // Cuadro de resumen
+            doc.setFillColor(...azul);
+            doc.rect(120, finalY, 70, 25, 'F');
+            
+            // Texto del resumen
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.text('TOTAL DE MATERIALES:', 125, finalY + 8);
             doc.setFontSize(12);
-            doc.text(`Total de Materiales: ${materiales.length}`, 20, finalY);
-            doc.text(`Precio Total: ₡${total.toFixed(2)}`, 20, finalY + 10);
+            doc.setFont(undefined, 'bold');
+            doc.text(materiales.length.toString(), 175, finalY + 8, { align: 'right' });
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.text('PRECIO TOTAL:', 125, finalY + 18);
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'bold');
+            doc.text(`₡${total.toFixed(2)}`, 185, finalY + 18, { align: 'right' });
+            
+            // Notas al pie
+            doc.setTextColor(...negro);
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'italic');
+            doc.text('Notas:', 20, finalY + 35);
+            doc.line(20, finalY + 40, 190, finalY + 40);
+            doc.line(20, finalY + 47, 190, finalY + 47);
+            doc.line(20, finalY + 54, 190, finalY + 54);
+            
+            // Firmas
+            const firmaY = doc.internal.pageSize.height - 30;
+            doc.setFont(undefined, 'normal');
+            doc.line(30, firmaY, 80, firmaY);
+            doc.text('Elaborado por', 55, firmaY + 5, { align: 'center' });
+            
+            doc.line(130, firmaY, 180, firmaY);
+            doc.text('Aprobado por', 155, firmaY + 5, { align: 'center' });
+            
+            // Pie de página
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Generado el ${new Date().toLocaleString('es-CR')}`, 105, doc.internal.pageSize.height - 10, { align: 'center' });
             
             // Guardar PDF
-            doc.save('presupuesto_materiales.pdf');
+            const fecha = new Date().toISOString().split('T')[0];
+            doc.save(`presupuesto_materiales_${fecha}.pdf`);
             mostrarToast('PDF exportado correctamente');
         }
 
