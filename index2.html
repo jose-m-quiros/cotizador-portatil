@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor de Lista de Materiales</title>
+    <title>Gestor de Presupuesto de Materiales</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 <style>
@@ -60,7 +60,7 @@
 
         .form-grid {
             display: grid;
-            grid-template-columns: 1fr 3fr auto;
+            grid-template-columns: 1fr 2fr 1fr auto;
             gap: 20px;
             align-items: center;
             margin-bottom: 25px;
@@ -449,7 +449,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>📋 Gestor de Lista de Materiales</h1>
+        <h1>💼 Gestor de Presupuesto de Materiales</h1>
         
         <div class="form-section">
             <div class="form-grid">
@@ -475,6 +475,11 @@
                     <input type="text" id="customMaterialInput" placeholder="Ingrese el material">
                 </div>
                 
+                <div class="form-group">
+                    <label for="precio">Precio Unitario</label>
+                    <input type="number" id="precio" min="0" step="0.01" placeholder="0.00" required>
+                </div>
+                
                 <button class="btn btn-primary" onclick="agregarMaterial()">
                     ➕ Agregar
                 </button>
@@ -482,21 +487,21 @@
         </div>
 
         <div class="summary-section">
-            <h2 class="summary-title">Resumen de Materiales</h2>
+            <h2 class="summary-title">Resumen del Presupuesto</h2>
             <div class="summary-content">
                 <div class="summary-item">
                     <div class="summary-label">Total de Materiales</div>
                     <div class="summary-value" id="totalMateriales">0</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-label">Total de Items</div>
-                    <div class="summary-value" id="totalItems">0</div>
+                    <div class="summary-label">Precio Total</div>
+                    <div class="summary-value" id="precioTotal">₡0.00</div>
                 </div>
             </div>
         </div>
 
         <div class="materials-list">
-            <h3 style="margin-bottom: 20px; color: #ffffff;">📦 Lista de Materiales</h3>
+            <h3 style="margin-bottom: 20px; color: #ffffff;">📋 Lista de Materiales</h3>
             <div id="materialesList">
                 <div class="empty-state">
                     <div class="empty-state-icon">📦</div>
@@ -552,9 +557,7 @@
         function mostrarToast(mensaje, tipo = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = mensaje;
-            toast.style.background = tipo === 'success' ? 
-                'linear-gradient(135deg, #1f2937 0%, #111827 100%)' : 
-                'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)';
+            toast.style.background = tipo === 'success' ? '#000' : '#dc3545';
             toast.classList.add('show');
             setTimeout(() => {
                 toast.classList.remove('show');
@@ -565,13 +568,14 @@
             const cantidad = parseInt(document.getElementById('cantidad').value);
             const materialSelect = document.getElementById('material');
             const customMaterialInput = document.getElementById('customMaterialInput');
+            const precio = parseFloat(document.getElementById('precio').value);
 
             let material = materialSelect.value;
             if (material === 'otro') {
                 material = customMaterialInput.value.trim();
             }
 
-            if (!cantidad || !material) {
+            if (!cantidad || !material || !precio) {
                 mostrarToast('Por favor complete todos los campos', 'error');
                 return;
             }
@@ -580,14 +584,16 @@
             const existente = materiales.find(m => m.material.toLowerCase() === material.toLowerCase());
             
             if (existente) {
-                materialPendiente = { cantidad, material };
+                materialPendiente = { cantidad, material, precio };
                 materialExistente = existente;
-                mostrarModalDuplicado(existente, cantidad);
+                mostrarModalDuplicado(existente, cantidad, precio);
             } else {
                 const nuevoMaterial = {
                     id: Date.now(),
                     cantidad,
-                    material
+                    material,
+                    precio,
+                    total: cantidad * precio
                 };
                 materiales.push(nuevoMaterial);
                 guardarDatos();
@@ -597,7 +603,7 @@
             }
         }
 
-        function mostrarModalDuplicado(existente, nuevaCantidad) {
+        function mostrarModalDuplicado(existente, nuevaCantidad, nuevoPrecio) {
             const modal = document.getElementById('duplicateModal');
             const modalBody = document.getElementById('modalBody');
             
@@ -605,10 +611,12 @@
                 <p>El material "<strong>${existente.material}</strong>" ya existe en la lista:</p>
                 <ul style="margin: 15px 0;">
                     <li>Cantidad actual: ${existente.cantidad}</li>
+                    <li>Precio actual: ₡${existente.precio.toFixed(2)}</li>
                 </ul>
                 <p>Nuevo material a agregar:</p>
                 <ul style="margin: 15px 0;">
                     <li>Cantidad: ${nuevaCantidad}</li>
+                    <li>Precio: ₡${nuevoPrecio.toFixed(2)}</li>
                 </ul>
                 <p>¿Desea agrupar con el existente o agregarlo por separado?</p>
             `;
@@ -618,7 +626,14 @@
 
         function agruparMaterial() {
             if (materialExistente && materialPendiente) {
-                materialExistente.cantidad += materialPendiente.cantidad;
+                // Calcular precio promedio ponderado
+                const cantidadTotal = materialExistente.cantidad + materialPendiente.cantidad;
+                const precioPromedio = ((materialExistente.cantidad * materialExistente.precio) + 
+                                       (materialPendiente.cantidad * materialPendiente.precio)) / cantidadTotal;
+                
+                materialExistente.cantidad = cantidadTotal;
+                materialExistente.precio = precioPromedio;
+                materialExistente.total = cantidadTotal * precioPromedio;
                 
                 guardarDatos();
                 actualizarVista();
@@ -633,7 +648,9 @@
                 const nuevoMaterial = {
                     id: Date.now(),
                     cantidad: materialPendiente.cantidad,
-                    material: materialPendiente.material
+                    material: materialPendiente.material,
+                    precio: materialPendiente.precio,
+                    total: materialPendiente.cantidad * materialPendiente.precio
                 };
                 materiales.push(nuevoMaterial);
                 guardarDatos();
@@ -662,7 +679,7 @@
         function actualizarVista() {
             const lista = document.getElementById('materialesList');
             const totalMateriales = document.getElementById('totalMateriales');
-            const totalItems = document.getElementById('totalItems');
+            const precioTotal = document.getElementById('precioTotal');
             
             if (materiales.length === 0) {
                 lista.innerHTML = `
@@ -672,11 +689,12 @@
                     </div>
                 `;
                 totalMateriales.textContent = '0';
-                totalItems.textContent = '0';
+                precioTotal.textContent = '₡0.00';
                 return;
             }
             
             let html = '';
+            let total = 0;
             let cantidadTotal = 0;
             
             materiales.forEach(material => {
@@ -685,7 +703,9 @@
                         <div class="material-info">
                             <div class="material-name">${material.material}</div>
                             <div class="material-details">
-                                Cantidad: ${material.cantidad}
+                                Cantidad: ${material.cantidad} | 
+                                Precio Unitario: ₡${material.precio.toFixed(2)} | 
+                                Total: ₡${material.total.toFixed(2)}
                             </div>
                         </div>
                         <button class="btn btn-danger" onclick="eliminarMaterial(${material.id})">
@@ -693,12 +713,13 @@
                         </button>
                     </div>
                 `;
+                total += material.total;
                 cantidadTotal += material.cantidad;
             });
             
             lista.innerHTML = html;
             totalMateriales.textContent = materiales.length;
-            totalItems.textContent = cantidadTotal;
+            precioTotal.textContent = `₡${total.toFixed(2)}`;
         }
 
         function limpiarFormulario() {
@@ -706,6 +727,7 @@
             document.getElementById('material').value = '';
             document.getElementById('customMaterialInput').value = '';
             document.getElementById('customMaterialInput').style.display = 'none';
+            document.getElementById('precio').value = '';
         }
 
         function guardarDatos() {
@@ -713,11 +735,11 @@
                 materiales: materiales,
                 fechaExpiracion: new Date().getTime() + (30 * 24 * 60 * 60 * 1000) // 30 días
             };
-            localStorage.setItem('listaMateriales', JSON.stringify(datos));
+            localStorage.setItem('presupuestoMateriales', JSON.stringify(datos));
         }
 
         function cargarDatos() {
-            const datosGuardados = localStorage.getItem('listaMateriales');
+            const datosGuardados = localStorage.getItem('presupuestoMateriales');
             
             if (datosGuardados) {
                 const datos = JSON.parse(datosGuardados);
@@ -728,7 +750,7 @@
                     actualizarVista();
                 } else {
                     // Los datos han expirado, limpiar
-                    localStorage.removeItem('listaMateriales');
+                    localStorage.removeItem('presupuestoMateriales');
                 }
             }
         }
@@ -736,7 +758,7 @@
         function limpiarTodo() {
             if (confirm('¿Está seguro de eliminar todos los materiales?')) {
                 materiales = [];
-                localStorage.removeItem('listaMateriales');
+                localStorage.removeItem('presupuestoMateriales');
                 actualizarVista();
                 mostrarToast('Todos los materiales han sido eliminados');
             }
@@ -764,7 +786,7 @@
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(24);
             doc.setFont(undefined, 'bold');
-            doc.text('LISTA DE MATERIALES', 105, 20, { align: 'center' });
+            doc.text('PRESUPUESTO DE MATERIALES', 105, 20, { align: 'center' });
             
             // Fecha en blanco
             doc.setFontSize(12);
@@ -777,8 +799,8 @@
             // Información de la empresa (opcional)
             doc.setFontSize(10);
             doc.text('Empresa: _________________________', 20, 55);
-            doc.text('Proyecto: ________________________', 20, 62);
-            doc.text('Responsable: ____________________', 20, 69);
+            doc.text('Cliente: _________________________', 20, 62);
+            doc.text('Proyecto: ________________________', 20, 69);
             
             // Línea divisora
             doc.setDrawColor(...azul);
@@ -788,15 +810,17 @@
             // Preparar datos para la tabla
             const tableData = materiales.map(m => [
                 m.material,
-                m.cantidad.toString()
+                m.cantidad.toString(),
+                `₡${m.precio.toFixed(2)}`,
+                `₡${m.total.toFixed(2)}`
             ]);
             
             // Calcular total
-            const totalItems = materiales.reduce((sum, m) => sum + m.cantidad, 0);
+            const total = materiales.reduce((sum, m) => sum + m.total, 0);
             
             // Crear tabla
             doc.autoTable({
-                head: [['Material', 'Cantidad']],
+                head: [['Material', 'Cantidad', 'Precio Unitario', 'Total']],
                 body: tableData,
                 startY: 80,
                 styles: { 
@@ -815,8 +839,10 @@
                     fillColor: grisClaro
                 },
                 columnStyles: {
-                    0: { cellWidth: 120 },
-                    1: { cellWidth: 50, halign: 'center' }
+                    0: { cellWidth: 80 },
+                    1: { cellWidth: 30, halign: 'center' },
+                    2: { cellWidth: 40, halign: 'right' },
+                    3: { cellWidth: 40, halign: 'right' }
                 }
             });
             
@@ -837,10 +863,10 @@
             
             doc.setFontSize(10);
             doc.setFont(undefined, 'normal');
-            doc.text('TOTAL DE ITEMS:', 125, finalY + 18);
+            doc.text('PRECIO TOTAL:', 125, finalY + 18);
             doc.setFontSize(14);
             doc.setFont(undefined, 'bold');
-            doc.text(totalItems.toString(), 185, finalY + 18, { align: 'right' });
+            doc.text(`₡${total.toFixed(2)}`, 185, finalY + 18, { align: 'right' });
             
             // Notas al pie
             doc.setTextColor(...negro);
@@ -867,7 +893,7 @@
             
             // Guardar PDF
             const fecha = new Date().toISOString().split('T')[0];
-            doc.save(`lista_materiales_${fecha}.pdf`);
+            doc.save(`presupuesto_materiales_${fecha}.pdf`);
             mostrarToast('PDF exportado correctamente');
         }
 
